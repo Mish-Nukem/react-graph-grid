@@ -1,0 +1,922 @@
+﻿body {
+}
+
+.modal-window-wnd {
+    border-radius: 3px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid lightgray;
+}
+
+.modal-window-header {
+    padding: 5px 10px 0;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .modal-window-header > h4 {
+        white-space: nowrap;
+        overflow: hidden;
+        margin-left: 1.5em;
+    }
+
+    .modal-window-header > button {
+        border: 0;
+        background: 0 0;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1;
+        opacity: 0.2;
+    }
+
+        .modal-window-header > button:hover:not(:disabled) {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+.modal-window-body {
+    padding: 0 10px;
+    height: 100%;
+    overflow: auto;
+}
+
+.modal-window-footer {
+    padding: 10px;
+    justify-content: flex-end !important;
+}
+
+.modal-window-footer-button {
+    padding: 2px 5px;
+    margin: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+    .modal-window-footer-button:hover:not(:disabled) {
+        background-color: lightgray;
+        cursor: pointer;
+    }
+
+.overlay-default {
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.grid-div {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.grid-default {
+    /*border-collapse: collapse;*/
+    table-layout: fixed !important;
+    border-spacing: 0;
+    /*border: solid 1px;*/
+}
+
+    .grid-default > tr > td,
+    .grid-default > tbody > tr > td {
+        border: solid;
+        border-width: 0 0 1px 1px;
+        /*overflow-x: hidden;*/
+        white-space: nowrap;
+        text-overflow: clip;
+        vertical-align: middle;
+        /*white-space-collapse: collapse;*/
+    }
+
+        .grid-default > tr > td:last-child,
+        .grid-default > tbody > tr > td:last-child {
+            border-width: 0 1px 1px 1px;
+        }
+
+        .grid-default > tr > td.grid-waiting,
+        .grid-default > tbody > tr > td.grid-waiting {
+            border-width: 0;
+            /*background-color: rgb(235, 235, 235);*/
+        }
+
+    .grid-default > tr > th,
+    .grid-default > thead > tr > th {
+        background-color: white;
+        border: solid;
+        border-width: 1px 0 1px 1px;
+        /*border: none;*/
+        /*box-shadow: inset 1px 0 0 0 gray, inset -1px -1px 0 0 gray;*/
+        /*box-shadow: inset 0 -1px 0 0 gray;*/
+        /*border-width: 0 1px 0 1px;*/
+        white-space: nowrap;
+        text-overflow: clip;
+        /*vertical-align: middle;*/
+    }
+
+        .grid-default > tr > th:last-child,
+        .grid-default > thead > tr > th:last-child {
+            border-width: 1px;
+        }
+
+
+.grid-header-div {
+    border: none;
+    margin: -1px -1px -1px -1px;
+    /*border: solid;*/
+    /*border-width: 1px 0 1px 1px;*/
+}
+
+.grid-header-th {
+    background-color: white;
+    vertical-align: top;
+}
+
+.grid-header-div-default {
+    user-select: none;
+    display: grid;
+    grid-template-columns: auto 8px;
+    grid-template-rows: auto auto;
+    grid-auto-flow: row;
+    align-items: center;
+    justify-items: start;
+}
+
+.grid-header-content {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.grid-header-drag-over {
+    background-color: lightgray !important;
+}
+
+.grid-header-sort-sign {
+    /*margin-top: -4px;*/
+    font-size: 12px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    cursor: pointer;
+    align-items: center;
+    background-color: white;
+}
+
+.grid-header-filter {
+    /*white-space: nowrap;*/
+    display: flex;
+    grid-column: span 2;
+}
+
+.grid-filter-clear {
+    border: 0;
+    opacity: 0.2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 2px;
+    border-radius: 3px;
+}
+
+    .grid-filter-clear:hover {
+        opacity: 1;
+    }
+
+.grid-cell {
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+    text-overflow: clip;
+}
+
+.grid-selected-row {
+    background-color: lightgray;
+}
+
+/*tr.grid-selected-row > td {
+    padding: 0.01em;
+}
+*/
+.grid-pager-default {
+    display: flex;
+    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+    .grid-pager-default > button, .grid-pager-default > span, .grid-pager-default > input, .grid-pager-default > select {
+        margin: 5px 2px;
+    }
+
+.grid-pocket-title {
+    display: flex;
+    justify-content: space-around;
+    font-weight: bold;
+}
+
+.grid-pocket-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-pocket-button {
+    height: 18px;
+    width: 20px;
+    border-radius: 3px;
+    border-width: 1px;
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    align-items: center;
+    padding: 0.01px;
+}
+
+    .grid-pocket-button:hover:not(:disabled) {
+        background-color: lightgray;
+        cursor: pointer;
+    }
+
+.grid-pocket-button-all.grid-pocket-button {
+    font-weight: bold;
+}
+
+.grid-pager-button {
+    /*margin: 5px 2px;*/
+    /*height: 28px;
+    width: 36px;*/
+    height: 2em;
+    width: 2.5em;
+    border-radius: 3px;
+    border-width: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /*space-between;*/
+}
+
+    .grid-pager-button:hover:not(:disabled) {
+        background-color: lightgray;
+        cursor: pointer;
+    }
+
+    .grid-pager-button:disabled {
+        filter: grayscale(1.0);
+        opacity: 0.2;
+    }
+
+.toolbar-default {
+    display: flex;
+    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+    .toolbar-default > button {
+        /*        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+*/ margin: 5px 2px;
+    }
+
+        .toolbar-default > button:hover:not(:disabled) {
+            cursor: pointer;
+            background-color: lightgray;
+        }
+
+        .toolbar-default > button > svg {
+            margin: 0 2px 0 0;
+        }
+
+        .toolbar-default > button > div > svg {
+            margin: 0 2px 0 0;
+        }
+
+
+.grid-toolbar-button {
+    /*height: 2em;*/
+    /*height: 28px;*/
+    height: 2em;
+    width: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 3px;
+    border-width: 1px;
+    /*padding: 1px 0px;*/
+    margin: 5px 2px;
+}
+
+    .grid-toolbar-button:hover:not(:disabled) {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+
+    .grid-toolbar-button:disabled, .grid-toolbar-button-md:disabled, .grid-toolbar-button-lg:disabled {
+        filter: grayscale(1.0);
+        opacity: 0.2;
+    }
+
+.grid-toolbar-button-md {
+    height: 3em;
+    width: auto;
+    display: grid;
+    grid-template-columns: 2em auto;
+    align-items: center;
+    border-radius: 3px;
+    border-width: 1px;
+    min-width: 6em;
+    justify-content: start;
+    margin: 4px;
+    overflow: hidden;
+}
+
+.grid-toolbar-button-lg {
+    height: 4em;
+    width: auto;
+    display: grid;
+    border-radius: 3px;
+    border-width: 1px;
+    align-content: space-around;
+    align-items: center;
+    justify-items: center;
+    min-width: 8em;
+    box-shadow: 2px 2px 4px 0px;
+    margin: 4px;
+    overflow: hidden;
+}
+
+.image-container-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-pager-current {
+    width: 3em;
+    height: 1.6em;
+    /*height: 22px;*/
+    margin: 0 2px;
+}
+
+.grid-pager-of {
+    padding: 0 3px;
+    white-space: nowrap;
+}
+
+.grid-pager-total {
+    padding: 0 3px;
+    white-space: nowrap;
+}
+
+.grid-pager-size {
+}
+
+.grid-settings-ul {
+    padding: 0;
+    margin: 5px 0;
+}
+
+    .grid-settings-ul > li {
+        list-style-type: none;
+        cursor: pointer;
+    }
+
+.grid-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    left: 0;
+}
+
+.dropdown-wnd {
+    background: white;
+    border: 1px solid;
+    /*padding: 0 5px;*/
+}
+
+.dropdown-ul {
+    padding: 0;
+    /*margin: 5px 0;*/
+    margin: 0;
+    height: 100%;
+}
+
+    .dropdown-ul > li {
+        list-style-type: none;
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+
+        .dropdown-ul > li:hover {
+            background-color: lightgray;
+        }
+
+
+        .dropdown-ul > li.active {
+            background-color: lightgray;
+        }
+
+.grid-header-content-grid {
+    display: grid;
+    grid-template-columns: auto 16px;
+    grid-template-rows: auto auto;
+    grid-auto-flow: row;
+}
+
+.grid-header-title {
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 2px 4px;
+}
+
+    .grid-header-title.grid-header-title-sortable:hover {
+        color: gray; /*#0026ff; /*#0d6efd;*/
+    }
+
+.div-on-menu {
+    margin: 10px;
+}
+
+.div-with-grid {
+    padding: 5px;
+}
+
+.grid-col-filter {
+    height: 2em;
+    margin: 2px;
+    width: calc(100% - 4px) !important;
+    padding: 0 2px;
+    box-sizing: border-box;
+}
+
+.grid-cell-lookup {
+    display: grid;
+    grid-template-columns: calc(100% - 3em) 1.5em 1.5em;
+    grid-template-rows: auto;
+    /*column-gap: 2px;*/
+    align-items: center;
+    align-content: center;
+    white-space: nowrap;
+    width: calc(100% - 0.2em);
+}
+
+.grid-cell-edit {
+    display: grid;
+    grid-template-columns: calc(100% - 3em) 1.5em 1.5em;
+    grid-template-rows: auto;
+    align-items: center;
+    align-content: center;
+    /*column-gap: 2px;*/
+    width: calc(100% - 2px);
+}
+
+.grid-cell-button {
+    height: 1.6em;
+    width: 1.6em;
+    display: flex;
+    padding: 0 !important;
+    border: 0; /*1px;*/
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    border-radius: 3px;
+    border-style: solid;
+    font-size: small;
+}
+
+    .grid-cell-button:hover:not(:disabled) {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+
+.graph-tabcontrol-buttons {
+    margin: 0 1em;
+    display: flex
+}
+
+    .graph-tabcontrol-buttons > button {
+        margin: 5px 2px 5px 2px;
+        /*height: 2.3em;*/
+    }
+
+.graph-tabcontrol-button {
+    height: 1.8em;
+    border-radius: 3px;
+    border-width: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+    .graph-tabcontrol-button:hover:not(:disabled):not(.active) {
+        background-color: lightgray;
+    }
+
+    .graph-tabcontrol-button:not(.active) {
+        cursor: pointer;
+    }
+
+    .graph-tabcontrol-button.active {
+        font-weight: bold;
+    }
+
+.graph-filters-div {
+    display: grid;
+    grid-template-columns: 18px auto;
+    align-items: center;
+    margin: 0 -10px;
+}
+
+.graph-filter-line {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 400px)); /*repeat(auto-fit, minmax(3em, 15em))*/
+    /*grid-template-rows: auto auto auto;*/
+    grid-auto-flow: row;
+    align-items: center;
+    align-content: center;
+    overflow-x: auto;
+    column-gap: 1em;
+    margin-left: -10px;
+}
+
+.graph-filter {
+    display: grid;
+    grid-template-columns: auto; /*calc(100% - 5em) 2.5em 2.5em;*/
+    /*grid-template-rows: auto auto;*/
+    grid-auto-flow: row;
+    row-gap: 2px;
+    align-items: center;
+    margin: 0.5em 0;
+    min-width: 200px;
+}
+
+.field-edit {
+    display: grid;
+    /*grid-template-columns: calc(100% - 5em) 2.5em 2.5em;*/
+    grid-template-columns: calc(100% - 4.4em) 2.2em 2.2em;
+    grid-template-rows: auto auto;
+    grid-auto-flow: row;
+    align-items: center;
+    /*column-gap: 4px;*/
+    min-width: 10em;
+}
+
+/*    .graph-filter > button {
+        margin: 5px 2px;
+    }
+*/
+.graph-filter-title {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.graph-grid {
+    margin: 0 1em 0.5em 1em;
+}
+
+.graph-filter-button {
+    /*margin: 5px 0 5px 3px;
+    width: 2.2em;
+    height: 2.2em;
+    */
+    min-height: 2.2em;
+    width: 100%;
+    border-radius: 3px;
+    border-width: 1px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center; /*space-between;*/
+}
+
+    .graph-filter-button:hover:not(:disabled) {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+
+.graph-filter-clear {
+    /*margin: 5px 0;*/
+    /*width: 2.2em;*/
+    height: 2.2em;
+    width: 100%;
+    border-radius: 3px;
+    border-width: 1px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center; /*space-between;*/
+}
+
+    .graph-filter-clear:hover:not(:disabled) {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+
+.graph-card-button {
+    margin: 5px 2px;
+    width: 2.5em;
+}
+
+    .graph-card-button:hover:not(:disabled) {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+
+.graph-card-toolbar {
+    margin: 0 1em;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 100;
+}
+
+.graph-card-div {
+    display: grid;
+    grid-auto-flow: row;
+    align-items: center;
+    align-content: center;
+    margin: 0.5em;
+    /*overflow-y: auto;*/
+}
+
+.graph-card-field {
+    display: grid;
+    /*grid-template-columns: auto 2.5em 2.5em;*/
+    grid-template-columns: 100%;
+    grid-template-rows: auto auto;
+    grid-auto-flow: row;
+    align-items: center;
+    align-content: center;
+    margin: 0 1em 0.5em 1em;
+}
+
+    .graph-card-field > span {
+        font-weight: bold;
+    }
+
+
+.input-default-class {
+    height: 1.8em;
+    box-sizing: border-box;
+}
+
+.input-default-class-lg {
+    height: 2.2em;
+    box-sizing: border-box;
+}
+
+.select-default-class {
+    height: 1.8em;
+    box-sizing: border-box;
+}
+
+.login-form {
+    display: grid;
+    align-items: center;
+    align-content: center;
+    margin: 20px;
+}
+
+.login-form-item {
+    margin: 5px;
+}
+
+.login-form > input {
+}
+
+.filter-select {
+    height: 2.5em;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+    .filter-select > div {
+        width: 100%;
+    }
+
+.datepicker-div {
+    margin: 1em;
+}
+
+.datepicker-input-lg {
+    /*padding-top: 2px;*/
+    overflow: hidden;
+}
+
+    .datepicker-input-lg,
+    .datepicker-input-lg > div.react-datepicker-wrapper,
+    .datepicker-input-lg > div > div.react-datepicker__input-container,
+    .datepicker-input-lg > div > div.react-datepicker__input-container input {
+        width: 100% /*calc(100% - 1px);*/
+    }
+
+        .datepicker-input-lg > div > div.react-datepicker__input-container input {
+            height: 2.2em;
+            border-width: 1px;
+            border-radius: 3px;
+        }
+
+.datepicker-input {
+    padding-top: 5px;
+    overflow: hidden;
+}
+
+    .datepicker-input,
+    .datepicker-input > div.react-datepicker-wrapper,
+    .datepicker-input > div > div.react-datepicker__input-container,
+    .datepicker-input > div > div.react-datepicker__input-container input {
+        width: calc(100% - 0px);
+    }
+
+.grid-cell-lookup > div.datepicker-input > div > div.react-datepicker__input-container input {
+    min-height: 1.7em;
+    height: 1.7em;
+    padding: 0;
+}
+
+.datepicker-filter, .datepicker-filter > div.react-datepicker-wrapper, .datepicker-filter > div > div.react-datepicker__input-container, .datepicker-filter > div > div.react-datepicker__input-container input {
+    width: calc(100% - 0px);
+    height: 1.7em;
+}
+
+    .datepicker-filter > div > div.react-datepicker__input-container input {
+        border-width: 1px;
+        border-radius: 3px;
+        padding: 0;
+    }
+
+    .datepicker-filter > div.react-datepicker-wrapper {
+        margin-top: 1px;
+    }
+
+.main-menu-wnd {
+    border-color: lightgray !important;
+}
+
+.main-menu-div {
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    margin-left: 4px;
+}
+
+    .main-menu-div > button {
+        margin: 10px 2px;
+        font-size: medium;
+        font-weight: 300;
+        border-color: lightgray;
+    }
+
+        .main-menu-div > button.active {
+            font-weight: bolder;
+        }
+
+        .main-menu-div > button:hover:not(:disabled) {
+            cursor: pointer;
+            background-color: lightgray;
+        }
+
+.menu-item, .menu-item-selected, .menu-item-root, .menu-item-root-selected {
+    cursor: pointer;
+    padding: 0 6px;
+    /*width: auto;*/
+    border-radius: 3px;
+    border-width: 1px;
+    /*min-width: 6em;*/
+    margin: 4px;
+    overflow: hidden;
+}
+
+.menu-item, .menu-item-selected {
+    display: grid;
+    grid-template-columns: 2em auto;
+    justify-content: start;
+    align-items: center;
+}
+
+.menu-item-root, .menu-item-root-selected {
+    display: flex;
+    justify-content: start;
+    flex-wrap: nowrap;
+    align-items: center;
+    height: 2em;
+}
+
+    .menu-item-root > div.image-container-div, .menu-item-root-selected > div.image-container-div {
+        margin-right: 4px;
+    }
+
+    .menu-item-root:hover {
+        background-color: lightgray;
+    }
+
+    .menu-item-root.active {
+        padding: 0 1px;
+    }
+
+.menu-item-root-selected {
+    background-color: lightgray;
+    border-width: 1px;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 0 6px;
+}
+
+    .menu-item-root-selected.active {
+        padding: 0 1px;
+    }
+
+.menu-collapse-button {
+    display: flex;
+    border: none;
+    height: 22px;
+    width: 24px;
+    padding: 0;
+    border-radius: 3px;
+    align-items: center;
+    margin-top: 5px;
+}
+
+    .menu-collapse-button:hover:not(:disabled) {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+
+.progress {
+}
+
+.progress-bar {
+    background-color: lightgray;
+}
+
+.react-datepicker-popper {
+    z-index: 9999 !important;
+}
+
+.report-params-header {
+    display: flex;
+    font-weight: bold;
+    justify-content: center;
+    margin: 5px;
+}
+
+
+.tree-div {
+    display: grid;
+    grid-template-columns: 16em calc(100% - 16em);
+}
+
+.tree,
+.tree-node,
+.tree-node-group {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tree-branch-wrapper,
+.tree-node__leaf {
+    outline: none;
+}
+
+.tree-node {
+    cursor: pointer;
+}
+
+.tree-node {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+    .tree-node > span {
+        white-space: nowrap;
+    }
+
+
+.tree-node--focused {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.tree-node {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    font-size: 16px;
+    user-select: none;
+    box-sizing: content-box;
+    max-width: 30em;
+    overflow-x: hidden;
+}
+
+.tree-right-panel {
+    display: flex;
+    justify-content: space-around;
+}
