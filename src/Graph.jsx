@@ -173,7 +173,10 @@ export class GraphClass {
         let i = 0;
         while (i < e.nodes.length) {
             let node = e.nodes[i];
-            if (node._lastWaveInd == e.waveInd) continue;
+            if (node._lastWaveInd == e.waveInd) {
+                i++;
+                continue;
+            }
 
             // если текущий узел не должен посещаться текущей волной
             if (node.skipOnWaveVisit && node.skipOnWaveVisit(e)) {

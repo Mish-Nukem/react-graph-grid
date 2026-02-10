@@ -690,7 +690,7 @@ export class GridDBClass extends GridPKClass {
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     setPocketImage() {
         const grid = this;
-        if (!grid.multi) return;
+        if (!grid.multi || !grid.pagerButtonsDict) return;
 
         const pocket = grid.pagerButtonsDict['pocket'];
         if (!pocket) return;

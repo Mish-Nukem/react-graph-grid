@@ -240,6 +240,8 @@ export class GridFLClass extends GridDBClass {
     showAutocomplete(e) {
         const grid = this;
 
+        if (grid._waitingRows) return;
+
         if (grid._autocompleteRect) {
             grid._autocompleteDropdown.opt.parentRect = grid._autocompleteRect;
         }
@@ -312,6 +314,8 @@ export class GridFLClass extends GridDBClass {
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     onColumnFocusLost(column, filter, e) {
         const grid = this;
+        grid._waitingRows = true;
+
         if (grid._inputingColumn !== column) {
             //console.log('onColumnFocusLost: grid._inputingColumn !== column');
             delete grid._inputingColumn;
@@ -328,11 +332,16 @@ export class GridFLClass extends GridDBClass {
                 grid.selectedRowIndex = 0;
                 grid.refresh();
             }
+            else {
+                grid._waitingRows = false;
+            }
         }, 150);
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     onColumnFilterClick(col, e) {
         const grid = this;
+
+        if (grid._waitingRows) return;
 
         grid._inputingColumn = col;
         e.target.focus();

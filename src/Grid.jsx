@@ -164,6 +164,7 @@ export class GridClass extends BaseComponent {
             rows => {
                 grid.rows = rows;
                 grid.afterGetRows();
+                grid._waitingRows = false;
                 grid.refreshState();
             }
         ).finally(() => {
@@ -420,11 +421,19 @@ export class GridClass extends BaseComponent {
     renderCell(grid, col, row) {
         let val = row[col.name];
 
-        if (col.type === 'date' && val) {
-            val = grid.formatDate(val, grid.dateFormat);
+        if (col.type === 'date' && val != null) {
+            try {
+                val = grid.formatDate(val, grid.dateFormat);
+            }
+            catch {
+            }
         }
-        else if (col.type === 'datetime' && val) {
-            val = grid.formatDate(val, grid.dateTimeFormat);
+        else if (col.type === 'datetime' && val != null) {
+            try {
+                val = grid.formatDate(val, grid.dateTimeFormat);
+            }
+            catch {
+            }
         }
 
         if (col.allowVerticalResize) {

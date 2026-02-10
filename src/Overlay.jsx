@@ -6,11 +6,9 @@ export function Overlay(props) {
 
     const [ovlState, setState] = useState({ ovl: ovl, ind: 0 });
 
-    if (ovlState.ovl) {
+    if (ovlState.ovl && ovlState.ovl.closing) {
         ovl = ovlState.ovl;
-        if (ovlState.ovl.closing) {
-            ovl.closing = false;
-        }
+        ovl.closing = false;
     }
     else {
         ovl = new OverlayClass(props);
