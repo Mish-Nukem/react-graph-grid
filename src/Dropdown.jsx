@@ -170,7 +170,7 @@ export class DropdownClass extends ModalClass {
                                     style={{ listStyleType: 'none', display: 'flex', flexWrap: 'nowrap' }}
                                     onClick={(e) => dd.onItemClick(e, 'append')}
                                 >
-                                    ${dd.translate('more...')}
+                                    ${dd.translate('more') + '...'}
                                 </li>
                             </ul>
                             : <></>

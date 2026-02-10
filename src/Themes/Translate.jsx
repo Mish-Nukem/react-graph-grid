@@ -34,7 +34,7 @@
             'LOAD MORE RECORDS': 'Загрузить еще строк',
             'LOADING': 'Загрузка',
             'MEDIUM BUTTONS': 'Средние',
-            'MORE...': 'еще...',
+            'MORE': 'еще',
             'NEXT': 'Следующая',
             'NEW CONFIGURATION': 'Новая конфигурация',
             'NO DATA DEFINED TO SAVE': 'Не опеределены данные для сохранения',

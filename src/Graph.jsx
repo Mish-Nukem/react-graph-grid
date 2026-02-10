@@ -128,9 +128,6 @@ export class GraphClass {
 
         const graph = this;
 
-        // выставляем у графа признак "пущена волна"
-        graph._isMakingWave = true;
-
         if (e.prepared == null) {
             if (e.waveType == null) {
                 e.waveType = WaveType.value;
@@ -145,6 +142,9 @@ export class GraphClass {
 
             e.prepared = true;
         }
+
+        // выставляем у графа признак "пущена волна"
+        graph._isMakingWave = true;
 
         // если запущена новая однотипная волна, то нет смысла продолжать текущую
         if (graph.lastWaveInds[e.waveType] != null && e.waveInd < graph.lastWaveInds[e.waveType]) return;
@@ -163,13 +163,17 @@ export class GraphClass {
 
         if (graph.lastWaveInds[e.waveType] == e.waveInd && e.nodes.length <= 0) {
             graph._isMakingWave = false;
+
+            if (e.afterAllVisited) {
+                e.afterAllVisited();
+            }
             return;
         }
 
         let i = 0;
         while (i < e.nodes.length) {
             let node = e.nodes[i];
-            node._lastWaveInd = e.waveInd;
+            if (node._lastWaveInd == e.waveInd) continue;
 
             // если текущий узел не должен посещаться текущей волной
             if (node.skipOnWaveVisit && node.skipOnWaveVisit(e)) {
@@ -187,18 +191,40 @@ export class GraphClass {
                 node.visited = true;
             }
 
-            e.nodes.splice(i, 1);
+            node._lastWaveInd = e.waveInd;
 
             if (node.visitByWave) {
+                i++;
                 node.visitByWave(e).then(() => {
                     graph.addChildrenToWave([node], e);
+
+                    const index = e.nodes.indexOf(node);
+
+                    if (index > -1) {
+                        e.nodes.splice(index, 1);
+                    }
 
                     graph.triggerWave(e);
 
                     if (graph.lastWaveInds[e.waveType] == e.waveInd && e.nodes.length <= 0) {
                         graph._isMakingWave = false;
+
+                        if (e.afterAllVisited) {
+                            e.afterAllVisited();
+                        }
                     }
                 });
+            }
+            else {
+                e.nodes.splice(i, 1);
+
+                if (graph.lastWaveInds[e.waveType] == e.waveInd && e.nodes.length <= 0) {
+                    graph._isMakingWave = false;
+
+                    if (e.afterAllVisited) {
+                        e.afterAllVisited();
+                    }
+                }
             }
         }
     }
