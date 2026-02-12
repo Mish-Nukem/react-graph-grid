@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "react-graph-grid",
   "author": "Mikhail Razumtsev",
   "description": "A React package containing a grid that can communicate with other grids through a connection graph",

@@ -77,7 +77,6 @@ export class GridFEClass extends GridFLClass {
         grid.onSelectValue = props.onSelectValue || (() => { });
 
         const shift = (grid.level + 1) * 20;
-
         grid.popupPos = { x: 100 + shift, y: 100 + shift, w: 800, h: 600 };
 
         grid.addToolbarButtons();
@@ -128,17 +127,6 @@ export class GridFEClass extends GridFLClass {
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     renderPopupContent() {
         return <></>;
-    }
-    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
-    onClosePopup() {
-        const grid = this;
-
-        super.onClosePopup();
-
-        if (grid.isNewRecord) {
-            grid.isNewRecord = false;
-            grid.refresh();
-        }
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     renderCell(grid, col, row, selected) {

@@ -43,8 +43,6 @@ export function FieldEdit(props) {
     fe.selectClass = props.selectClass || BaseComponent.theme.selectClass || '';
     fe.divContainerClass = props.divContainerClass || '';
 
-    fe.datePickerDateFormat = props.datePickerDateFormat || 'dd.MM.yyyy';
-
     fe.w = props.w;
     fe.maxW = props.maxW;
     fe.h = fe.h || props.h || '1.6em';
@@ -120,28 +118,22 @@ export class FieldEditClass extends BaseComponent {
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     static _seq = 0;
-    static _autoFocusColumn;
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     render() {
         const fe = this;
-
-        const isLookup = fe.column.type === 'lookup';
-        const isReadonly = fe.column.readonly;
-        const hasValue = fe.value != null && fe.value !== '';
-        const noClear = fe.column.required || fe.column.readonly || !fe.multi && !hasValue;
 
         return (
             <>
                 <div
                     key={`fieldEditDiv_${fe.id}_${fe.column.id}_`}
-                    className={fe.divContainerClass ? fe.divContainerClass : fe.large ? 'field-edit' : isLookup && !isReadonly ? 'grid-cell-lookup' : 'grid-cell-edit'}
+                    className={fe.divContainerClass ? fe.divContainerClass : fe.large ? 'field-edit' : fe.column.type === 'lookup' && !fe.column.readonly ? 'grid-cell-lookup' : 'grid-cell-edit'}
                     style={{
                         border: 'none',
                         height: !fe.inputClass ? fe.h : '',
                         width: '100%',
                         display: 'grid',
                         gridColumn: fe.gridColumn || '',
-                        gridTemplateColumns: fe.large ? 'calc(100% - 4.6em) 2.2em 2.2em' : 'calc(100% - 2.8em) 1.4em 1.4em',
+                        gridTemplateColumns: fe.getDivGridTemplateColumns(),
                         maxWidth: fe.maxW ? fe.maxW : '',
                         minHeight: fe.large ? '2.5em' : '',
                         columnGap: fe.large ? '0.2em' : '',
@@ -150,85 +142,23 @@ export class FieldEditClass extends BaseComponent {
                     }}
                 >
                     {
-                        isLookup && !isReadonly ?
-                            <>
-                                <input
-                                    key={`fieldLookupTitle_${fe.id}_${fe.column.id}_`}
-                                    style={{
-                                        width: '100%',
-                                        gridColumn: noClear ? !fe.comboboxValues ? 'span 2' : 'span 3' : 'span 1',
-                                        overflowX: 'hidden',
-                                        height: !fe.large ? '1.7em' : '2.2em',
-                                        minHeight: !fe.inputClass ? fe.textareaH : fe.h,
-                                        boxSizing: 'border-box',
-                                    }}
-                                    disabled={true}
-                                    className={fe.large ? fe.inputClassLG : fe.inputClass || ''}
-                                    value={!hasValue ? '' : fe.text != null && fe.text !== '' ? fe.text : fe.value}
-                                >
-                                </input>
-                                <button
-                                    key={`fieldLookupButton_${fe.id}_${fe.column.id}_`}
-                                    className={`${fe.large ? 'graph-filter-button' : 'grid-cell-button'} ${fe.clearButtonClass}`}
-                                    style={{ width: !fe.large ? '1.6em' : '', height: !fe.large ? '1.6em' : '' }}
-                                    onClick={(e) => {
-                                        fe.openLookupField(e);
-                                    }}
-                                    disabled={fe.disabled}
-                                >
-                                    {!fe.large ? '...' : Images.images.filterSelect()}
-                                </button>
-                            </>
-                            :
-                            <textarea
-                                key={`fieldTextarea_${fe.id}_${fe.column.id}_`}
-                                ref={fe.textareaRef}
-                                className={`${fe.large ? fe.inputClassLG : fe.inputClass}`}
-                                value={isLookup ? fe.text : fe.value || ''}
-                                style={{
-                                    width: noClear ? 'calc(100% - 2px)' : '100%',
-                                    minHeight: !fe.inputClass ? fe.textareaH : fe.minH,
-                                    height: fe.h ? fe.h : !fe.large ? '1.7em' : '2.2em',
-                                    padding: '0',
-                                    boxSizing: 'border-box',
-                                    gridColumn: noClear ? 'span 3' : 'span 2',
-                                    resize: 'vertical',
-                                    overflowX: 'hidden',
-                                }}
-                                onChange={(e) => {
-                                    e.value = e.text = e.target.value;
-                                    fe.value = fe.text = e.target.value;
-                                    e.fe = fe;
-
-                                    fe.selectionStart = e.target.selectionStart;
-                                    fe._refocus = true;
-
-                                    fe.onChange(e);
-                                    fe.refreshState();
-                                }}
-                                disabled={fe.disabled || fe.column.readonly}
-                            >
-                            </textarea>
+                        fe.renderInput()
                     }
                     {
-                        noClear || fe.column.readonly ? <></>
-                            :
+                        fe.canClear() ?
                             <button
                                 key={`fieldClearButton_${fe.id}_${fe.column.id}_`}
                                 className={`${fe.large ? 'graph-filter-clear' : 'grid-cell-button'} ${fe.clearButtonClass || ''}`}
                                 style={{ width: !fe.large ? '1.6em' : '', height: !fe.large ? '1.6em' : '' }}
                                 onClick={(e) => {
-                                    e.value = e.text = '';
-                                    fe.value = fe.text = '';
-                                    e.fe = fe;
-                                    fe.onChange(e);
-                                    fe.refreshState();
+                                    fe.onClearClick(e);
                                 }}
                                 disabled={fe.disabled}
                             >
                                 {!fe.large ? '×' : Images.images.filterClear()}
                             </button>
-
+                            :
+                            <></>
                     }
                 </div >
                 {
@@ -253,6 +183,79 @@ export class FieldEditClass extends BaseComponent {
         )
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    renderInput() {
+        const fe = this;
+
+        const isLookup = fe.column.type === 'lookup';
+        const noClear = !fe.canClear();
+
+        return (
+            <>
+                {
+                    isLookup && !fe.column.readonly ?
+                        <>
+                            <input
+                                key={`fieldLookupTitle_${fe.id}_${fe.column.id}_`}
+                                style={{
+                                    width: '100%',
+                                    gridColumn: noClear ? 'span 2' : 'span 1',
+                                    overflowX: 'hidden',
+                                    height: !fe.large ? '1.7em' : '2.2em',
+                                    minHeight: !fe.inputClass ? fe.textareaH : fe.h,
+                                    boxSizing: 'border-box',
+                                }}
+                                disabled={true}
+                                className={fe.large ? fe.inputClassLG : fe.inputClass || ''}
+                                value={fe.value == null || fe.value == '' ? '' : fe.text != null && fe.text !== '' ? fe.text : fe.value}
+                            >
+                            </input>
+                            <button
+                                key={`fieldLookupButton_${fe.id}_${fe.column.id}_`}
+                                className={`${fe.large ? 'graph-filter-button' : 'grid-cell-button'} ${fe.clearButtonClass}`}
+                                style={{ width: !fe.large ? '1.6em' : '', height: !fe.large ? '1.6em' : '' }}
+                                onClick={(e) => {
+                                    fe.openLookupField(e);
+                                }}
+                                disabled={fe.disabled}
+                            >
+                                {!fe.large ? '...' : Images.images.filterSelect()}
+                            </button>
+                        </>
+                        :
+                        <textarea
+                            key={`fieldTextarea_${fe.id}_${fe.column.id}_`}
+                            ref={fe.textareaRef}
+                            className={`${fe.large ? fe.inputClassLG : fe.inputClass}`}
+                            value={isLookup ? fe.text : fe.value || ''}
+                            style={{
+                                width: noClear ? 'calc(100% - 2px)' : '100%',
+                                minHeight: !fe.inputClass ? fe.textareaH : fe.minH,
+                                height: fe.h ? fe.h : !fe.large ? '1.7em' : '2.2em',
+                                padding: '0',
+                                boxSizing: 'border-box',
+                                gridColumn: noClear ? 'span 3' : 'span 2',
+                                resize: 'vertical',
+                                overflowX: 'hidden',
+                            }}
+                            onChange={(e) => {
+                                e.value = e.text = e.target.value;
+                                fe.value = fe.text = e.target.value;
+                                e.fe = fe;
+
+                                fe.selectionStart = e.target.selectionStart;
+                                fe._refocus = true;
+
+                                fe.onChange(e);
+                                fe.refreshState();
+                            }}
+                            disabled={fe.disabled || fe.column.readonly}
+                        >
+                        </textarea>
+                }
+            </>
+        );
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     renderLookupGrid(wnd) {
         const fe = this;
 
@@ -267,7 +270,7 @@ export class FieldEditClass extends BaseComponent {
                 findGrid={() => { return fe.grid; }}
                 onSelectValue={(e) => {
                     fe._selectedOptions = e.values || [];
-                    
+
                     fe.value = e.value;
                     fe.text = e.text;
 
@@ -304,6 +307,26 @@ export class FieldEditClass extends BaseComponent {
             >
             </GridFE>
         );
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    getDivGridTemplateColumns() {
+        const fe = this;
+        return fe.large ? 'calc(100% - 4.6em) 2.2em 2.2em' : 'calc(100% - 2.8em) 1.4em 1.4em';
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    canClear() {
+        const fe = this;
+        return !fe.column.required && !fe.column.readonly && (fe.multi || fe.value != null && fe.value !== '');
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    onClearClick(e) {
+        const fe = this;
+
+        e.value = e.text = '';
+        fe.value = fe.text = '';
+        e.fe = fe;
+        fe.onChange(e);
+        fe.refreshState();
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     closeLookupField() {
