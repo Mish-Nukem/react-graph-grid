@@ -7,6 +7,8 @@ import { Grid } from '../Grid';
 import { GridGR } from '../GridGR';
 import { GridDB } from '../GridDB';
 import { GridFL } from '../GridFL';
+import { GridFE } from '../GridFE';
+import { FieldEdit } from '../FieldEdit';
 //import { GridINU } from '../GridINU';
 //import { GraphComponent } from '../GraphComponent';
 
@@ -225,6 +227,49 @@ function DebugApp() {
                         </div>
                     </>
                 );
+            case 8:
+                return (
+                    <>
+                        <Modal uid="m01" isModal={true} closeWhenEscape={true}
+                            renderContent={() => {
+                                return (
+                                    <div className="div-with-grid">
+                                        <span>Persona</span>
+                                        <FieldEdit
+                                            column={{
+                                                id: 1,
+                                                name: 'Persona',
+                                                getRows: GetFamily,
+                                                refKeyField: 'Id',
+                                                refNameField: 'Name',
+                                                type: 'lookup',
+                                            }}
+                                        >
+                                        </FieldEdit>
+                                        <br></br>
+                                        <span>Age</span>
+                                        <FieldEdit
+                                            column={{
+                                                id: 2,
+                                                name: 'Age',
+                                            }}
+                                        >
+                                        </FieldEdit>
+                                    </div>
+                                );
+                            }}
+                            pos={{ x: 100, y: 100, w: 400, h: 200 }} title='Field Edit'>
+                        </Modal>
+                    </>
+                )
+            case 9:
+                return (
+                    <>
+                        <div className="div-with-grid">
+                            <GridFE getRows={GetFamily} getColumns={GetFamilyColumns} allowEditGrid={true}></GridFE>
+                        </div>
+                    </>
+                );
             case 11:
                 return (
                     <>
@@ -243,14 +288,16 @@ function DebugApp() {
                 setState({ menuItem: e.target.selectedIndex });
             }}>
                 <option>0. None</option>
-                <option>1. ReactGrid</option>
+                <option>1. React Grid</option>
                 <option>2. Overlay</option>
                 <option>3. Modal</option>
                 <option>4. Dropdown</option>
                 <option>5. Two Grids</option>
                 <option>6. GridDB</option>
                 <option>7. GridFL</option>
-                <option>11. TEST</option>
+                <option>8. Field Edit</option>
+                <option>9. GridFE</option>
+                <option>10. TEST</option>
             </select>
             <div className="div-on-menu">
                 {getTestApp()}

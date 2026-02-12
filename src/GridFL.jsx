@@ -17,7 +17,7 @@ export function GridFL(props) {
             grid = props.findGrid(props);
         }
         grid = grid || new GridFLClass(props);
-        needGetRows = !props.noAutoRefresh && !props.parentGrids;
+        needGetRows = !props.noAutoRefresh && !grid.hasVisibleParentGrids();
     }
 
     if (props.init) {
@@ -139,6 +139,7 @@ export class GridFLClass extends GridDBClass {
                             disabled={isDisabled ? 'disabled' : ''}
                             onBlur={(e) => { grid.onColumnFocusLost(col, col.filter, e); }}
                             autoComplete="off"
+                            autocomplete="off"
                         >
                         </input>
                         {

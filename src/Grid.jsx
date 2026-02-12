@@ -85,7 +85,6 @@ export class GridClass extends BaseComponent {
         grid.keyField = props.keyField;
         grid.nameField = props.nameField;
 
-        //grid._selectedRowsDict = {};
         if (props.renderCell) {
             grid.defaultRenderCell = grid.renderCell;
             grid.renderCell = props.renderCell;

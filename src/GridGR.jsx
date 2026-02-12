@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import { GridClass } from './Grid';
 import { GraphClass } from './Graph';
+import { NodeStatus } from './Base';
 // ==================================================================================================================================================================
 export function GridGR(props) {
     let grid = null;
@@ -305,6 +306,18 @@ export class GridGRClass extends GridClass {
                 grid.refreshState();
             });
         });
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    hasVisibleParentGrids() {
+        const grid = this;
+        if (!grid.graph) return false;
+
+        for (let puid of grid.parents) {
+            let pnode = grid.graph.nodesDict[puid];
+            if (pnode.visible !== false && pnode.status === NodeStatus.grid) return true;
+        }
+
+        return false;
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
 }

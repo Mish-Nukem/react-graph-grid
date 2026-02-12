@@ -1,9 +1,9 @@
-{
+﻿{
   "name": "react-graph-grid",
   "author": "Mikhail Razumtsev",
-  "description": "a React package containing a grid that can communicate with other grids through a connection graph",
+  "description": "A React package containing a grid that can communicate with other grids through a connection graph",
   "private": false,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite --port 4000",
