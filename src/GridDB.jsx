@@ -151,7 +151,12 @@ export class GridDBClass extends GridPKClass {
                 {grid.renderPager()}
                 {super.render()}
                 {grid.renderPager(true)}
-                <Dropdown init={(dd) => { grid.menuDropdown = dd; }} getItems={(e) => { return grid.getGridSettings(e); }} onItemClick={(e) => { grid.onSettingsItemClick(e.itemId); }}></Dropdown>
+                <Dropdown
+                    init={(dd) => { grid.menuDropdown = dd; }}
+                    closeWhenMiss={true}
+                    getItems={(e) => { return grid.getGridSettings(e); }}
+                    onItemClick={(e) => { grid.onSettingsItemClick(e.itemId); }}>
+                </Dropdown>
             </>
         )
     }
@@ -774,12 +779,20 @@ export class GridDBClass extends GridPKClass {
     resetColumnsSort() {
         const grid = this;
         grid._sortString = '';
+        let needRefresh = false;
         for (let col of grid.columns) {
+            needRefresh = needRefresh || col.asc != false || col.desc != false;
+
             delete col.asc;
             delete col.desc;
             delete col.sortInd;
         }
-        grid.refresh();
+        if (needRefresh) {
+            grid.refresh();
+        }
+        else {
+            grid.refreshState();
+        }
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     changeColumnSortOrder(column, e) {

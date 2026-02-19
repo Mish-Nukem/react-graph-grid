@@ -79,6 +79,7 @@ export class GridFLClass extends GridDBClass {
                 <Dropdown
                     getItems={(e) => { return grid.getAutocomleteItems(e); }}
                     onItemClick={(e) => { grid.onAutocomleteItemClick(e); }}
+                    closeWhenMiss={true}
                     init={(dd) => {
                         if (grid._autocompleteDropdown) {
                             dd.visible = grid._autocompleteDropdown.visible;

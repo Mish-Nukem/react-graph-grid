@@ -54,7 +54,8 @@ export class ModalClass extends BaseComponent {
 
         wnd.opt.closeWhenClick = props.closeWhenClick;
         wnd.opt.closeWhenEscape = props.closeWhenEscape;
-        wnd.opt.closeWhenMiss = (props.closeWhenMiss || !props.closeWhenMouseLeave) && wnd.opt.isModal;
+        wnd.opt.closeWhenMiss = props.closeWhenMiss && wnd.opt.isModal;
+        //wnd.opt.closeWhenMiss = (props.closeWhenMiss || props.closeWhenMouseLeave == false) && wnd.opt.isModal;
         wnd.opt.closeWhenMouseLeave = props.closeWhenMouseLeave;
 
         wnd.opt.onMouseEnter = props.onMouseEnter;
@@ -306,12 +307,14 @@ export class ModalClass extends BaseComponent {
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     close() {
         const wnd = this;
-        wnd.visible = false;
 
         if (wnd.onClose) {
-            wnd.onClose();
+            const ev = {};
+            wnd.onClose(ev);
+            if (ev.cancel) return;
         }
 
+        wnd.visible = false;
         wnd.refreshState();
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------

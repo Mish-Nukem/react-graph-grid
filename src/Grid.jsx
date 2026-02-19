@@ -498,7 +498,8 @@ export class GridClass extends BaseComponent {
         for (let col of grid.columns) {
             col.id = id++;
             col.title = col.title || col.name;
-            col.w = col.initW = col.w || 100;
+            col.w = col.w || 100;
+            col.initW = col.initW || 100;
             col.minW = col.minW || 50;
             col.grid = grid;
             grid.colDict[col.id] = grid.colDict[col.name] = grid.colDict[col.name.toLowerCase()] = col;

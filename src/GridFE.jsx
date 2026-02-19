@@ -506,4 +506,78 @@ export class GridFEClass extends GridFLClass {
         });
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    getGridSettingsList() {
+        const res = super.getGridSettingsList();
+
+        const grid = this;
+        if (!grid.exportDisabled) {
+            res.push({ id: 4, text: grid.translate('Export to CSV', 'grid-menu') });
+        }
+
+        return res;
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    onSettingsItemClick(itemId) {
+        super.onSettingsItemClick(itemId);
+        const grid = this;
+
+        switch (String(itemId)) {
+            case '4':
+                grid.exportToCSV();
+
+                grid.refreshState();
+                break;
+            default:
+        }
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    exportToCSV(filename, delimeter) {
+        const grid = this;
+
+        if (filename == null || filename == '') {
+            const date = new Date();
+            filename = `exportCSV_${date.getDate()}_${date.getMonth()}_${date.getFullYear()}_${date.getTime()}_`;
+        };
+
+        delimeter = delimeter || ';';
+
+        let titles = [];
+        for (let col of grid.columns) {
+            if (col.visible == false) continue;
+            titles.push(col.title || col.name);
+        }
+
+        // 1. Преобразование данных в CSV строку
+        const csvContent = "\uFEFF" + // Добавляем BOM для корректного отображения кириллицы в Excel
+            [
+            titles.join(delimeter), // Заголовки
+            ...grid.rows.map(item => {
+
+                let values = [];
+                for (let col of grid.columns) {
+                    if (col.visible == false) continue;
+                    values.push(item[col.name]);
+                }
+                return values.join(delimeter);
+
+                //return Object.values(item).join(delimeter);
+            }) // Строки данных
+            ].join("\n");
+
+        // 2. Создание Blob
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+        // 3. Создание ссылки и скачивание
+        const link = document.createElement("a");
+        if (link.download !== undefined) {
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
 }
