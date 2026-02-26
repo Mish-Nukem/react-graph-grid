@@ -227,7 +227,7 @@ export class DropdownClass extends ModalClass {
 
             dd.refreshState();
 
-            dd.getItems({ filter: dd.filter, pageSize: dd.pageSize, pageNumber: dd.pageNumber }).then(
+            dd.getItems({ self: dd, filter: dd.filter, pageSize: dd.pageSize, pageNumber: dd.pageNumber }).then(
                 items => {
                     afterGetItems(items);
                 }
@@ -259,7 +259,7 @@ export class DropdownClass extends ModalClass {
         }
         else {
             if (dd.opt.onItemClick) {
-                dd.opt.onItemClick({ owner: dd.opt.owner, itemId: itemId, dropdown: dd, clientX: e.clientX, clientY: e.clientY, target: e.target });
+                dd.opt.onItemClick({ owner: dd.opt.owner, itemId: itemId, self: dd, clientX: e.clientX, clientY: e.clientY, target: e.target });
             }
 
             const clickedItem = dd.items.find(function (item) {
@@ -286,7 +286,7 @@ export class DropdownClass extends ModalClass {
                 case 'enter':
                     if (!dd.activeItem) return;
 
-                    dd.opt.onItemClick({ owner: dd.opt.owner, itemId: dd.activeItem.id, dropdown: dd });
+                    dd.opt.onItemClick({ owner: dd.opt.owner, itemId: dd.activeItem.id, self: dd });
                     dd.close();
                     break;
                 case 'down':

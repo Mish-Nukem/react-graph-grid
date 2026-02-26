@@ -17,7 +17,7 @@ export function GridFL(props) {
             grid = props.findGrid(props);
         }
         grid = grid || new GridFLClass(props);
-        needGetRows = !props.noAutoRefresh && !grid.hasVisibleParentGrids();
+        needGetRows = !props.noAutoRefresh && grid.hasVisibleParentGrids && !grid.hasVisibleParentGrids();
     }
 
     if (props.init) {
@@ -77,25 +77,26 @@ export class GridFLClass extends GridDBClass {
             <>
                 {super.render()}
                 <Dropdown
-                    getItems={(e) => { return grid.getAutocomleteItems(e); }}
-                    onItemClick={(e) => { grid.onAutocomleteItemClick(e); }}
+                    getItems={(e) => { return e.self._grid.getAutocomleteItems(e); }}
+                    onItemClick={(e) => { e.self._grid.onAutocomleteItemClick(e); }}
                     closeWhenMiss={true}
                     init={(dd) => {
                         if (grid._autocompleteDropdown) {
                             dd.visible = grid._autocompleteDropdown.visible;
                         }
                         grid._autocompleteDropdown = dd;
+                        dd._grid = grid;
                         if (grid._autocompleteRect) {
                             dd.opt.parentRect = grid._autocompleteRect;
                         }
                     }}
-                    onClose={() => {
-                        if (grid._inputingColumn) {
-                            delete grid._inputingColumn;
-                            if (grid.needRefresh()) {
-                                grid.pageNumber = 1;
-                                grid.selectedRowIndex = 0;
-                                grid.refresh();
+                    onClose={(e) => {
+                        if (e.self._grid._inputingColumn) {
+                            delete e.self._grid._inputingColumn;
+                            if (e.self._grid.needRefresh()) {
+                                e.self._grid.pageNumber = 1;
+                                e.self._grid.selectedRowIndex = 0;
+                                e.self._grid.refresh();
                             }
                         }
                     }}
@@ -280,7 +281,7 @@ export class GridFLClass extends GridDBClass {
             return;
         }
 
-        e.dropdown.items = [];
+        e.self.items = [];
         grid._autocompleteDropdown.items = [];
         grid._autocompleteDropdown.visible = false;
 
@@ -412,7 +413,7 @@ export class GridFLClass extends GridDBClass {
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     getHeaderGridTemplateColumns(col) {
-        return col.sortInd == null /*&& (col.filter == null || col.filter === '')*/ ? 'auto 18px' : 'auto 22px';
+        return col.sortInd == null ? 'auto 12px' : 'auto 22px';
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     getGridSettingsList() {

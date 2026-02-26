@@ -69,6 +69,7 @@ export class ModalClass extends BaseComponent {
         wnd.opt.noHeader = props.noHeader;
         wnd.opt.noFooter = props.noFooter;
         wnd.opt.noPadding = props.noPadding;
+        wnd.opt.noBodyOverflow = props.noBodyOverflow;
 
         wnd.opt.margin = props.margin;
         wnd.opt.padding = props.padding;
@@ -184,7 +185,7 @@ export class ModalClass extends BaseComponent {
                         key={`window_${wnd.id}_body_`}
                         wnd-body={1}
                         className={wnd.opt.bodyClass}
-                        style={{ padding: wnd.opt.noPadding ? '0' : '', overflow: 'auto', height: '100%' }}
+                        style={{ padding: wnd.opt.noPadding ? '0' : '', overflow: wnd.opt.noBodyOverflow ? 'hidden' : 'auto', height: '100%' }}
                     >
                         {wnd.renderContent(wnd)}
                     </div>
@@ -236,7 +237,7 @@ export class ModalClass extends BaseComponent {
                             wnd-btn={`button_${wnd.id}_${btn._ind}_`}
                             className={wnd.opt.footerButtonClass}
                             title={btn.title}
-                            onClick={btn.onclick ? (e) => btn.onclick(e) : null}
+                            onClick={btn.onClick ? (e) => btn.onClick(e) : null}
                             disabled={btn.getDisabled ? btn.getDisabled() : false}
                         >
                             <i className={btn.imageClass}></i>
@@ -309,7 +310,7 @@ export class ModalClass extends BaseComponent {
         const wnd = this;
 
         if (wnd.onClose) {
-            const ev = {};
+            const ev = { self: wnd };
             wnd.onClose(ev);
             if (ev.cancel) return;
         }

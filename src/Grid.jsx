@@ -90,7 +90,7 @@ export class GridClass extends BaseComponent {
             grid.renderCell = props.renderCell;
         }
 
-        grid.dateFormat = props.dateFormat || 'dd.MM.yyyy';//'DD.MM.YYYY';
+        grid.dateFormat = props.dateFormat || 'dd.MM.yyyy';
         grid.dateTimeFormat = props.dateTimeFormat || 'dd.MM.yyyy HH:mm:ss';
 
         grid.rows = [];
@@ -166,7 +166,9 @@ export class GridClass extends BaseComponent {
                 grid._waitingRows = false;
                 grid.refreshState();
             }
-        ).finally(() => {
+        ).catch(() => {
+            grid._waitingRows = false;
+        }).finally(() => {
             grid._waitingRows = false;
             grid.refreshState();
         });
@@ -289,6 +291,7 @@ export class GridClass extends BaseComponent {
                                                 gridTemplateRows: '1.5em auto',
                                                 gridAutoFlow: 'row',
                                                 width: 'calc(100% + 8px)',
+                                                justifyContent: 'space-between',
                                             }}
                                         >
                                             {grid.renderHeaderCell(col, context)}

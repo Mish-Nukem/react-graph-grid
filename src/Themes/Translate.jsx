@@ -11,6 +11,7 @@
         const dict = {
             'ADD': 'Добавить',
             'ADD NEW RECORD': 'Добавить новую строку',
+            'ADJUST COLUMN VISIBILITY': 'Настроить видимость колонок',
             'BUTTONS SIZE': 'Размер кнопок',
             'CANCEL': 'Отмена',
             'COLLAPSE': 'Свернуть',
@@ -29,6 +30,7 @@
             'EXPAND': 'Развернуть',
             'EXIT': 'Выход',
             'FIRST': 'К началу',
+            'INVISIBLE COLUMNS': 'Невидимые колонки',
             'LARGE BUTTONS': 'Большие',
             'LAST': 'В конец',
             'LOAD MORE RECORDS': 'Загрузить еще строк',
@@ -62,6 +64,7 @@
             'VALUE': 'Значение',
             'VIEW': 'Просмотр',
             'VIEW RECORD': 'Карточка',
+            'VISIBLE COLUMNS': 'Видимые колонки',
             'USER': 'Пользователь',
         };
         return dict[text.toUpperCase()] || text;

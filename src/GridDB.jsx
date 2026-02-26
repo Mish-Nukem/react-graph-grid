@@ -152,10 +152,13 @@ export class GridDBClass extends GridPKClass {
                 {super.render()}
                 {grid.renderPager(true)}
                 <Dropdown
-                    init={(dd) => { grid.menuDropdown = dd; }}
+                    init={(dd) => {
+                        grid.menuDropdown = dd;
+                        dd._grid = grid;
+                    }}
                     closeWhenMiss={true}
-                    getItems={(e) => { return grid.getGridSettings(e); }}
-                    onItemClick={(e) => { grid.onSettingsItemClick(e.itemId); }}>
+                    getItems={(e) => { return e.self._grid.getGridSettings(e); }}
+                    onItemClick={(e) => { e.self._grid.onSettingsItemClick(e.itemId); }}>
                 </Dropdown>
             </>
         )
@@ -612,7 +615,7 @@ export class GridDBClass extends GridPKClass {
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     getHeaderGridTemplateColumns(col) {
-        return col.sortInd == null ? 'auto 8px' : 'auto 22px';
+        return col.sortInd == null ? 'auto 12px' : 'auto 22px';
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     renderHeaderCell(col, context) {

@@ -134,7 +134,7 @@ function DebugApp() {
                     }
                 </div>
                 <Dropdown init={(dd) => { wnd.ddComponent = dd; }} getItems={GetPopupItems}
-                    onItemClick={(e) => { /*console.log('Item clicked: ' + e.itemId); */e.dropdown.clickedItem = e.itemId; wnd.refreshState(); }}
+                    onItemClick={(e) => { /*console.log('Item clicked: ' + e.itemId); */e.self.clickedItem = e.itemId; wnd.refreshState(); }}
                 >
                 </Dropdown>
             </>

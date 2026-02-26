@@ -3,7 +3,7 @@
   "author": "Mikhail Razumtsev",
   "description": "A React package containing a grid that can communicate with other grids through a connection graph",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.7",
   "type": "module",
   "scripts": {
     "dev": "vite --port 4000",

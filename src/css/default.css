@@ -423,6 +423,14 @@
             background-color: lightgray;
         }
 
+.dropdown-item-div {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+}
+
 .grid-header-content-grid {
     display: grid;
     grid-template-columns: auto 16px;
@@ -495,6 +503,21 @@
         cursor: pointer;
         background-color: lightgray;
     }
+
+.grid-columns-settings-div {
+    display: grid;
+    grid-template-columns: calc(50% - 4px) 8px calc(50% - 4px);
+    margin: 10px;
+}
+
+.grid-columns-settings-div-ul {
+    margin: 5px;
+}
+
+.grid-columns-settings-label {
+    font-weight: 600;
+    /*margin: 5px;*/
+}
 
 .graph-tabcontrol-buttons {
     margin: 0 1em;

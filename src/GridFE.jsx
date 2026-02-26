@@ -111,6 +111,7 @@ export class GridFEClass extends GridFLClass {
                         grid.onClosePopup(e);
                         grid.refreshState();
                     }}
+                    footerButtons={grid._popupButtons ? grid._popupButtons : null}
                 >
                 </Modal>
                 :
@@ -123,10 +124,12 @@ export class GridFEClass extends GridFLClass {
         grid.popupIsShowing = false;
         grid.popupCloseWhenEscape = false;
         grid.popupTitle = '';
+        delete grid._popupButtons;
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     renderPopupContent() {
-        return <></>;
+        const grid = this;
+        return grid.columnsSettingsIsShowing ? grid.renderColumnsSettings() : <></>;
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     renderCell(grid, col, row, selected) {
@@ -510,8 +513,11 @@ export class GridFEClass extends GridFLClass {
         const res = super.getGridSettingsList();
 
         const grid = this;
+
+        res.push({ id: 4, text: grid.translate('Adjust column visibility', 'grid-menu') });
+
         if (!grid.exportDisabled) {
-            res.push({ id: 4, text: grid.translate('Export to CSV', 'grid-menu') });
+            res.push({ id: 5, text: grid.translate('Export to CSV', 'grid-menu') });
         }
 
         return res;
@@ -523,12 +529,148 @@ export class GridFEClass extends GridFLClass {
 
         switch (String(itemId)) {
             case '4':
+                grid.showColumnsSettings();
+                grid.refreshState();
+                break;
+            case '5':
                 grid.exportToCSV();
-
                 grid.refreshState();
                 break;
             default:
         }
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    applyColumnsVisibility() {
+        const grid = this;
+        for (let col of grid.columns) {
+            col.visible = col._newVisible;
+        }
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    showColumnsSettings() {
+        const grid = this;
+        grid.popupIsShowing = true;
+        grid.columnsSettingsIsShowing = true;
+        grid.popupTitle = grid.translate('Adjust column visibility');
+
+        grid._visibleColumnsCount = 0;
+        for (let col of grid.columns) {
+            col._newVisible = col.visible;
+            if (col._newVisible != false) grid._visibleColumnsCount++;
+        }
+
+        grid._popupButtons = [
+            {
+                title: grid.translate('OK'),
+                onClick: (e) => {
+                    grid.applyColumnsVisibility();
+                    grid.columnsSettingsIsShowing = false;
+                    grid.onClosePopup(e);
+                    grid.refreshState();
+                }
+            },
+            {
+                title: grid.translate('Cancel'),
+                onClick: (e) => {
+                    grid.columnsSettingsIsShowing = false;
+                    grid.onClosePopup(e);
+                    grid.refreshState();
+                }
+            },
+        ];
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    hideAllColumns(preview) {
+        const grid = this;
+        let first = true;
+        for (let col of grid.columns) {
+            if (col._newVisible == false || !preview && col.visible == false) continue;
+
+            if (first) {
+                first = false;
+                continue;
+            }
+
+            if (preview) {
+                col._newVisible = false;
+                grid._visibleColumnsCount--;
+            }
+            else {
+                col.visible = false;
+            }
+        }
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    showAllColumns(preview) {
+        const grid = this;
+        for (let col of grid.columns) {
+            if (col._newVisible != false || !preview && col.visible != false) continue;
+
+            if (preview) {
+                col._newVisible = true;
+                grid._visibleColumnsCount++;
+            }
+            else {
+                col.visible = true;
+            }
+        }
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    renderColumnsSettings() {
+        const grid = this;
+        return (
+            <div className='grid-columns-settings-div'>
+                <div>
+                    <ul className='dropdown-ul grid-columns-settings-div-ul'>
+                        <li className="dropdown-item" onClick={(e) => { grid.hideAllColumns(true); grid.refreshState(); }}>
+                            <div className="dropdown-item-div">
+                                <span className='grid-columns-settings-label'>{grid.translate('Visible columns')}</span>
+                                {Images.images.last()}
+                            </div>
+                        </li>
+                        {
+                            grid.columns.map((column) => {
+                                if (column._newVisible == false) return <></>;
+
+                                return (
+                                    <li className="dropdown-item" onClick={(e) => { if (grid._visibleColumnsCount > 1) { column._newVisible = false; grid._visibleColumnsCount--; grid.refreshState(); } }}>
+                                        <div className="dropdown-item-div">
+                                            <span>{column.title}</span>
+                                            {Images.images.next()}
+                                        </div>
+                                    </li>
+                                );
+                            })
+                        }
+                    </ul>
+                </div>
+                <div></div>
+                <div>
+                    <ul className='dropdown-ul grid-columns-settings-div-ul'>
+                        <li className="dropdown-item" onClick={(e) => { grid.showAllColumns(true); grid.refreshState(); }}>
+                            <div className="dropdown-item-div">
+                                {Images.images.first()}
+                                <span className='grid-columns-settings-label'>{grid.translate('Invisible columns')}</span>
+                            </div>
+                        </li>
+                        {
+                            grid.columns.map((column) => {
+                                if (column._newVisible != false) return <></>;
+
+                                return (
+                                    <li className="dropdown-item" onClick={(e) => { column._newVisible = true; grid._visibleColumnsCount++; grid.refreshState(); }}>
+                                        <div className="dropdown-item-div">
+                                            {Images.images.prev()}
+                                            <span>{column.title}</span>
+                                        </div>
+                                    </li>
+                                );
+                            })
+                        }
+                    </ul>
+                </div>
+            </div>
+        );
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     exportToCSV(filename, delimeter) {
@@ -550,18 +692,18 @@ export class GridFEClass extends GridFLClass {
         // 1. Преобразование данных в CSV строку
         const csvContent = "\uFEFF" + // Добавляем BOM для корректного отображения кириллицы в Excel
             [
-            titles.join(delimeter), // Заголовки
-            ...grid.rows.map(item => {
+                titles.join(delimeter), // Заголовки
+                ...grid.rows.map(item => {
 
-                let values = [];
-                for (let col of grid.columns) {
-                    if (col.visible == false) continue;
-                    values.push(item[col.name]);
-                }
-                return values.join(delimeter);
+                    let values = [];
+                    for (let col of grid.columns) {
+                        if (col.visible == false) continue;
+                        values.push(item[col.name]);
+                    }
+                    return values.join(delimeter);
 
-                //return Object.values(item).join(delimeter);
-            }) // Строки данных
+                    //return Object.values(item).join(delimeter);
+                }) // Строки данных
             ].join("\n");
 
         // 2. Создание Blob
