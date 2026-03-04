@@ -68,9 +68,12 @@ export class GridFEClass extends GridFLClass {
 
         const grid = this;
 
-        grid.allowEditGrid = props.allowEditGrid;
+        grid.allowEdit = props.allowEdit;
 
-        //grid.changedRow = {};
+        grid.allowView = false;
+        grid.allowAdd = true;
+        grid.allowCopy = true; 
+        grid.allowDelete = true;
 
         grid.closeSelfWnd = grid.closeSelfWnd || (() => { });
 
@@ -127,13 +130,13 @@ export class GridFEClass extends GridFLClass {
         delete grid._popupButtons;
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
-    renderPopupContent() {
+    renderPopupContent(wnd) {
         const grid = this;
-        return grid.columnsSettingsIsShowing ? grid.renderColumnsSettings() : <></>;
+        return grid.columnsSettingsIsShowing ? grid.renderColumnsSettings(wnd) : <></>;
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     renderCell(grid, col, row, selected) {
-        if (!grid.allowEditGrid && !col.allowVerticalResize || !selected || grid.isDisabled()) return super.renderCell(grid, col, row);
+        if (!grid.allowEdit && !col.allowVerticalResize || !selected || grid.isDisabled()) return super.renderCell(grid, col, row);
 
         row = !grid.isEditing() || !grid.changedRow ? row : grid.changedRow;
 
@@ -261,6 +264,7 @@ export class GridFEClass extends GridFLClass {
             img: Images.images.viewRecord,
             click: (e) => grid.viewRecord(e),
             getDisabled: (e) => grid.viewRecordDisabled(e),
+            getVisible: () => { return false; },
         });
 
         grid.buttons.push({
@@ -369,6 +373,8 @@ export class GridFEClass extends GridFLClass {
         const grid = this;
 
         grid.getNewRow().then((newRow) => {
+            grid.rows.unshift(newRow);
+            grid.selectedRowIndex = 0;
             grid.refreshState();
         });
     }
@@ -381,8 +387,10 @@ export class GridFEClass extends GridFLClass {
     copyRecord(e) {
         const grid = this;
 
-        let newRow;
+        const newRow = {};
         Object.assign(newRow, grid.selectedRow());
+        grid.rows.unshift(newRow);
+        grid.selectedRowIndex = 0;
 
         grid.refreshState();
     }
@@ -396,7 +404,7 @@ export class GridFEClass extends GridFLClass {
         const grid = this;
 
         if (window.confirm(grid.translate('Delete  record') + '?')) {
-            grid.deleteRow(e).then(() => grid.refresh());
+            grid.deleteRow(e).then(() => grid.refreshState());
         }
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -406,11 +414,6 @@ export class GridFEClass extends GridFLClass {
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     viewRecord(e) {
-        const grid = this;
-
-        let cardRow = grid.selectedRow();
-
-        grid.refreshState();
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     viewRecordDisabled(e) {
@@ -432,7 +435,7 @@ export class GridFEClass extends GridFLClass {
         const grid = this;
         super.onSelectedRowChanged(e);
 
-        if (grid.allowEditGrid && grid.refreshState) {
+        if (grid.allowEdit && grid.refreshState) {
             grid.refreshState();
         }
     }
@@ -460,7 +463,7 @@ export class GridFEClass extends GridFLClass {
         const grid = this;
         let res;
 
-        return (!grid.allowEditGrid || !grid.isEditing()) && !grid.isDisabled();
+        return (!grid.allowEdit || !grid.isEditing()) && !grid.isDisabled();
 
         const row = grid.rows[rowIndex];
         await grid.saveRow({ row: row, changedRow: grid.changedRow }).then(
@@ -486,16 +489,31 @@ export class GridFEClass extends GridFLClass {
         return selected ? '1' : grid.stateind;
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
-    isRowChanged(row) {
+    isRowChanged(row, secondRow) {
         const grid = this;
-        if (!grid.changedRow) return false;
+        secondRow = secondRow || grid.changedRow;
+
+        if (!secondRow) return false;
 
         let res = false;
-        for (let col in grid.changedRow) {
-            if (grid.changedRow[col] !== row[col]) return true;
+        for (let col of grid.columns) {
+            if (secondRow[col.name] !== row[col.name]) return true;
         }
 
         return res;
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    getNewRow() {
+        const grid = this;
+
+        return new Promise(function (resolve, reject) {
+            const newRow = {};
+            for (let col of grid.columns) {
+                newRow[col.name] = '';
+            }
+            newRow[grid.keyField] = -1;
+            resolve(newRow);
+        });
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     saveRow(e) {
@@ -505,6 +523,16 @@ export class GridFEClass extends GridFLClass {
 
         return new Promise(function (resolve, reject) {
             e.row = e.changedRow;
+            resolve(true);
+        });
+    }
+    // -------------------------------------------------------------------------------------------------------------------------------------------------------------
+    deleteRow(e) {
+        const grid = this;
+        e.row = e.row || grid.selectedRow();
+
+        return new Promise(function (resolve, reject) {
+            grid.rows = grid.rows.filter(item => item != e.row);
             resolve(true);
         });
     }

@@ -8,6 +8,7 @@ import { GridGR } from '../GridGR';
 import { GridDB } from '../GridDB';
 import { GridFL } from '../GridFL';
 import { GridFE } from '../GridFE';
+import { GridCD } from '../GridCD';
 import { FieldEdit } from '../FieldEdit';
 //import { GridINU } from '../GridINU';
 //import { GraphComponent } from '../GraphComponent';
@@ -192,7 +193,7 @@ function DebugApp() {
             case 4:
                 return (
                     <>
-                        <Modal uid="m02" isModal={true} renderContent={(wnd) => { return drawDropdownInModal(wnd) }} closeWhenEscape={true}
+                        <Modal uid="m02" isModal={true} title="Dropdown" renderContent={(wnd) => { return drawDropdownInModal(wnd) }} closeWhenEscape={true}
                             dimensionsByContent={true}
                             pos={{ x: 100, y: 100, w: 300, h: 250 }}></Modal>
                     </>
@@ -200,6 +201,9 @@ function DebugApp() {
             case 5:
                 return (
                     <>
+                        <div className="div-on-menu">
+                            Change the active record in the parent grid to see the child rows.
+                        </div>
                         <div className="div-on-menu">
                             {drawClearConsole()}
                         </div>
@@ -214,6 +218,9 @@ function DebugApp() {
             case 6:
                 return (
                     <>
+                        <div className="div-on-menu">
+                            Grid with pager, pocket and sortable columns. Hold shift to sort by multiple columns.
+                        </div>
                         <div className="div-with-grid">
                             <GridDB getRows={GetFamily} buttons={GetButtons()} getColumns={GetFamilyColumns} multi={true}></GridDB>
                         </div>
@@ -222,6 +229,9 @@ function DebugApp() {
             case 7:
                 return (
                     <>
+                        <div className="div-on-menu">
+                            Grid with column filters.
+                        </div>
                         <div className="div-with-grid">
                             <GridFL getRows={GetFamily} buttons={GetButtons()} getColumns={GetFamilyColumns}></GridFL>
                         </div>
@@ -265,8 +275,22 @@ function DebugApp() {
             case 9:
                 return (
                     <>
+                        <div className="div-on-menu">
+                            Editable grid.
+                        </div>
                         <div className="div-with-grid">
-                            <GridFE getRows={GetFamily} getColumns={GetFamilyColumns} allowEditGrid={true}></GridFE>
+                            <GridFE getRows={GetFamily} getColumns={GetFamilyColumns} allowEdit={true}></GridFE>
+                        </div>
+                    </>
+                );
+            case 10:
+                return (
+                    <>
+                        <div className="div-on-menu">
+                            Editable grid with card-based record view.
+                        </div>
+                        <div className="div-with-grid">
+                            <GridCD getRows={GetFamily} getColumns={GetFamilyColumns} allowEdit={true}></GridCD>
                         </div>
                     </>
                 );
@@ -297,7 +321,8 @@ function DebugApp() {
                 <option>7. GridFL</option>
                 <option>8. Field Edit</option>
                 <option>9. GridFE</option>
-                <option>10. TEST</option>
+                <option>10. GridCD</option>
+                <option>11. TEST</option>
             </select>
             <div className="div-on-menu">
                 {getTestApp()}

@@ -291,7 +291,7 @@ export class GridClass extends BaseComponent {
                                                 gridTemplateRows: '1.5em auto',
                                                 gridAutoFlow: 'row',
                                                 width: 'calc(100% + 8px)',
-                                                justifyContent: 'space-between',
+                                                //justifyContent: 'space-between',
                                             }}
                                         >
                                             {grid.renderHeaderCell(col, context)}
@@ -475,7 +475,7 @@ export class GridClass extends BaseComponent {
             for (let key in row) {
                 if (grid.colDict[key]) continue;
 
-                const col = grid.getColumn(key);
+                const col = grid.createColumn(key);
 
                 grid.colDict[col.name] = col;
                 res.push(col);
@@ -485,7 +485,7 @@ export class GridClass extends BaseComponent {
         return res;
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
-    getColumn(name) {
+    createColumn(name) {
         return { name: name };
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------

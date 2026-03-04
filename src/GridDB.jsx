@@ -642,6 +642,7 @@ export class GridDBClass extends GridPKClass {
                         whiteSpace: 'nowrap',
                         overflowX: 'hidden',
                         width: sortDir ? 'calc(100% - 10px)' : '',
+                        textAlign: 'left',
                     }}
                     onClick={(e) => { if (!grid._waitingRows) grid.changeColumnSortOrder(col, e); }}
                     disabled={grid._waitingRows || col.disabled ? 'disabled' : ''}

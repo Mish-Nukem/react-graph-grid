@@ -68,8 +68,8 @@ export class GridGRClass extends GridClass {
             grid.entity = props.entity;
         }
 
-        if (props.getDefaultLinkContent) {
-            grid.getDefaultLinkContent = props.getDefaultLinkContent;
+        if (props.applyConnection) {
+            grid.applyConnection = props.applyConnection;
         }
 
         if (!props.graph && (props.parentGrids || props.uid)) {
@@ -139,7 +139,7 @@ export class GridGRClass extends GridClass {
             let parentGrid = graph.nodesDict[uid];
             if (parentUids.indexOf(parentGrid.uid) <= 0) continue;
 
-            const link = { content: grid.getDefaultLinkContent(), parent: parentGrid, child: grid };
+            const link = { parent: parentGrid, child: grid };
 
             const lkey = grid.id + '_' + parentGrid.id;
             graph.linksDict[lkey] = link;
@@ -152,19 +152,10 @@ export class GridGRClass extends GridClass {
         }
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
-    getDefaultLinkContent() {
-        const grid = this;
-        return {
-            applyLink: function (link) {
-                if (!link.parent || !link.parent.rows) return '';
+    applyConnection(link) {
+        if (!link.parent || !link.parent.rows) return '';
 
-                if (link.parent.getConnectContent) {
-                    return link.parent.getConnectContent({ child: grid });
-                }
-
-                return link.parent.selectedValue();
-            }
-        };
+        return link.parent.selectedValue();
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     getEntity() {
@@ -228,15 +219,12 @@ export class GridGRClass extends GridClass {
 
         for (let uid of grid.parents) {
             let link = grid.graph.linksDict[grid.id + '_' + grid.graph.nodesDict[uid].id];
-            if (!link.content) continue;
 
-            if (link.content.applyLink) {
-                let filter = link.content.applyLink(link);
-                if (filter == null || filter === '') continue;
+            let filter = grid.applyConnection(link);
+            if (filter == null || filter === '') continue;
 
-                let fo = { type: 'graphLink', filter: filter };
-                filters.push(fo);
-            }
+            let fo = { type: 'graphLink', filter: filter };
+            filters.push(fo);
         }
 
         return filters;

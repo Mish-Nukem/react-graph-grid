@@ -115,6 +115,8 @@ export class FieldEditClass extends BaseComponent {
 
         // просто разметка 'span 2' etc.
         fe.gridColumn = props.gridColumn;
+
+        fe._selectedOptions = [];
     }
     // -------------------------------------------------------------------------------------------------------------------------------------------------------------
     static _seq = 0;
