@@ -11,7 +11,7 @@ Installation
 
 Example
 
-	import { GridFE } from '../../node_modules/react-graph-grid/src/GridFE';
+	import { GridCD } from '../../node_modules/react-graph-grid/src/GridCD';
 	import TestData from '../../node_modules/react-graph-grid/src/Tests/TestData';
 
 	...
@@ -111,7 +111,7 @@ Example
 	};
 
 
-	<GridFE 
+	<GridCD 
 		getRows={loadRows} 
 		getColumns={loadColumns} 
 		allowEdit={true}
@@ -153,6 +153,26 @@ Some grid properties
 
 
 For more examples see DebugApp.jsx
+
+	Your App.jsx should look like this
+
+	import DebugApp from '../node_modules/react-graph-grid/src/Tests/DebugApp'
+	import '../node_modules/react-graph-grid/src/css/default.css'
+
+	function App() {
+	  return (
+		  <>
+			  <DebugApp></DebugApp>
+		</>
+	  )
+	}
+
+	export default App
+
+
+0.1.1 version
+		
+		Readme file updated
 
 0.1.0 version
 
