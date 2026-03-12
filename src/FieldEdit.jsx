@@ -30,6 +30,8 @@ export function FieldEdit(props) {
 
     fe.multi = props.multi;
 
+    fe.large = props.large;
+
     fe.id = props.keyPref || FieldEditClass._seq++;
 
     fe.disabled = props.disabled;
@@ -110,8 +112,6 @@ export class FieldEditClass extends BaseComponent {
         fe.onChange = props.onChange || (() => { });
 
         fe.selectionStart = 0;
-
-        fe.large = props.large;
 
         // просто разметка 'span 2' etc.
         fe.gridColumn = props.gridColumn;
@@ -231,8 +231,8 @@ export class FieldEditClass extends BaseComponent {
                             value={isLookup ? fe.text : fe.value || ''}
                             style={{
                                 width: noClear ? 'calc(100% - 2px)' : '100%',
+                                height: !fe.large ? fe.h ? fe.h : '1.7em' : '2.2em',
                                 minHeight: !fe.inputClass ? fe.textareaH : fe.minH,
-                                height: fe.h ? fe.h : !fe.large ? '1.7em' : '2.2em',
                                 padding: '0',
                                 boxSizing: 'border-box',
                                 gridColumn: noClear ? 'span 3' : 'span 2',

@@ -90,8 +90,8 @@ export class GridClass extends BaseComponent {
             grid.renderCell = props.renderCell;
         }
 
-        grid.dateFormat = props.dateFormat || 'dd.MM.yyyy';
-        grid.dateTimeFormat = props.dateTimeFormat || 'dd.MM.yyyy HH:mm:ss';
+        grid.dateFormat = props.dateFormat || BaseComponent.dateFormat || 'dd.MM.yyyy';
+        grid.dateTimeFormat = props.dateTimeFormat || BaseComponent.dateTimeFormat || 'dd.MM.yyyy HH:mm:ss';
 
         grid.rows = [];
         grid.columns = [];

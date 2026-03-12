@@ -108,7 +108,7 @@ export default class TestData {
             { name: 'Id', sortable: true, filtrable: true },
             { name: 'Name', sortable: true, filtrable: true },
             { name: 'SecondName', sortable: true, filtrable: true },
-            { name: 'Date', sortable: true },
+            { name: 'Date', sortable: true, type: 'date' },
             { name: 'Comment', sortable: true, filtrable: true },
             {
                 name: 'Hometown', sortable: true, filtrable: true, type: 'lookup', keyField: 'HometownId', refKeyField: 'Id', refNameField: 'City', getRows: (e) => {

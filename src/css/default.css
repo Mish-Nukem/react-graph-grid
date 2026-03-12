@@ -133,7 +133,7 @@
 .grid-header-div-default {
     user-select: none;
     display: grid;
-    grid-template-columns: auto 8px; 
+    grid-template-columns: auto 8px;
     grid-template-rows: auto auto;
     grid-auto-flow: row;
     align-items: center;
@@ -536,6 +536,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    white-space: nowrap;
 }
 
     .graph-tabcontrol-button:hover:not(:disabled):not(.active) {
@@ -599,6 +600,10 @@
     font-weight: bold;
     white-space: nowrap;
     overflow-x: hidden;
+}
+
+.graph-filter-required {
+    color: red;
 }
 
 .graph-grid {
@@ -793,7 +798,7 @@
 
     .main-menu-div > button {
         margin: 10px 2px;
-        font-size: medium;
+        /*font-size: medium;*/
         font-weight: 300;
         border-color: lightgray;
     }
@@ -827,10 +832,11 @@
 
 .menu-item-root, .menu-item-root-selected {
     display: flex;
-    justify-content: start;
+    justify-content: space-around;
     flex-wrap: nowrap;
     align-items: center;
     height: 2em;
+    font-size: 0.85em;
 }
 
     .menu-item-root > div.image-container-div, .menu-item-root-selected > div.image-container-div {
@@ -915,16 +921,16 @@
     cursor: pointer;
 }
 
-.tree-node {
-    background: rgba(0, 0, 0, 0.1);
-}
+    .tree-node .name:hover {
+        background: rgba(0, 0, 0, 0.1);
+    }
 
     .tree-node > span {
         white-space: nowrap;
     }
 
 
-.tree-node--focused {
+.tree-node--focused .name {
     background: rgba(0, 0, 0, 0.2);
 }
 

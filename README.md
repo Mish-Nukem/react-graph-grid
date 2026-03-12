@@ -170,6 +170,10 @@ For more examples see DebugApp.jsx
 	export default App
 
 
+0.1.2 version
+		
+		Grid date format fix
+
 0.1.1 version
 		
 		Readme file updated
