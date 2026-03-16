@@ -1,9 +1,14 @@
 ﻿{
   "name": "react-graph-grid",
   "author": "Mikhail Razumtsev",
-  "description": "A React package containing a grid that can communicate with other grids through a connection graph",
+  "version": "0.1.12",
   "private": false,
-  "version": "0.1.2",
+  "description": "A React package containing a grid that can communicate with other grids through a connection graph",
+  "keywords": [
+    "react-graph-grid"
+  ],
+  "main": "index.js",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite --port 4000",
@@ -15,6 +20,10 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/react": "^19.2.5",
@@ -32,6 +41,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mish-Nukem/react-graph-grid.git"
+    "url": "git+https://github.com/Mish-Nukem/react-graph-grid.git"
   }
 }

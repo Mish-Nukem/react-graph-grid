@@ -1,10 +1,4 @@
-﻿import { GraphClass, WaveType } from '../Graph';
-import { BaseComponent, NodeStatus, FilterType } from '../Base';
-export default class TestData {
-
-    //constructor() {
-    //}
-
+﻿export class TestData {
     getFamily(e) {
         e = e || { grid: {} };
 
@@ -32,14 +26,12 @@ export default class TestData {
             { Id: 21, ParentId: [11, 23], Name: 'Tanya', SecondName: 'Dolginova', Date: '07/01/1963', Comment: 'Tetya', Hometown: 'Elista', HometownId: 5 },
             { Id: 22, ParentId: [0], Name: 'Misha', SecondName: 'Razumtsev', Date: '05/11/1918', Comment: 'Ded', Hometown: 'Grafskaya', HometownId: 2 },
             { Id: 23, ParentId: [0], Name: 'Zambo', SecondName: 'Dolginov', Date: '24/04/1926', Comment: 'Ded 2', Hometown: 'Elista', HometownId: 5 },
-
             { Id: 24, ParentId: [18, 34], Name: 'Alina', SecondName: 'Ushakova', Date: '??/??/????', Comment: 'Dv. Sister', Hometown: 'Elista', HometownId: 5 },
             { Id: 25, ParentId: [19, 33], Name: 'Igor', SecondName: 'Shaula', Date: '??/??/????', Comment: 'Dv. Brother', Hometown: 'Energodar', HometownId: 14 },
             { Id: 26, ParentId: [19, 33], Name: 'Dima', SecondName: 'Shaula', Date: '??/??/????', Comment: 'Dv. Brother', Hometown: 'Energodar', HometownId: 14 },
             { Id: 27, ParentId: [20, 35], Name: 'Olga', SecondName: 'Dolginova', Date: '??/??/????', Comment: 'Dv. Sister', Hometown: 'Elista', HometownId: 5 },
             { Id: 28, ParentId: [20, 35], Name: 'Venia', SecondName: 'Dolginov', Date: '??/??/????', Comment: 'Dv. Brother', Hometown: 'Elista', HometownId: 5 },
             { Id: 29, ParentId: [20, 36], Name: 'Oleg', SecondName: 'Dolginov', Date: '10/11/????', Comment: 'Dv. Brother', Hometown: 'Elista', HometownId: 5 },
-
             { Id: 30, ParentId: [0], Name: 'Yura', SecondName: 'Pelushskiy', Date: '??/??/1921', Comment: 'Dv. Ded', Hometown: 'Ustyuzhna', HometownId: 9 },
             { Id: 31, ParentId: [0], Name: 'Sanal', SecondName: 'Batyrev', Date: '11/06/????', Comment: 'Muzh Sestry 3', Hometown: 'Elista', HometownId: 5 },
             { Id: 32, ParentId: [0], Name: 'Dima', SecondName: 'Markelov', Date: '??/??/????', Comment: 'Muzh Sestry 2', Hometown: 'Elista', HometownId: 5 },

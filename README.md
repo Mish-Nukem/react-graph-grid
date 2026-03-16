@@ -4,16 +4,15 @@ A React package containing a grid that can communicate with other grids through 
 
 For all questions, please contact rmb@mail.ru
 
-Installation
+## Installation
 
     npm install react-grpah-grid
 
 
-Example
+## Example
 
-	import { GridCD } from '../../node_modules/react-graph-grid/src/GridCD';
-	import TestData from '../../node_modules/react-graph-grid/src/Tests/TestData';
-
+	import { GridCD, TestData } from 'react-grpah-grid';
+	
 	...
 
 	/*
@@ -23,7 +22,7 @@ Example
 	*         Id: 1,
 	*         Name: 'Mikle',
 	*		  SecondName: 'Razumtsev',
-	*		  Date: '26/01/1979'
+	*		  Date: '26/01/1979',
 	*		  Comment: 'Me',
 	*		  Hometown: 'Voronezh',
 	*		  HometownId: 1,
@@ -32,7 +31,7 @@ Example
 	*         Id: 2,
 	*         Name: 'Boris',
 	*		  SecondName: 'Razumtsev',
-	*		  Date: '14/06/1953'
+	*		  Date: '14/06/1953',
 	*		  Comment: 'Father',
 	*		  Hometown: 'Grafskaya',
 	*		  HometownId: 2,
@@ -41,7 +40,7 @@ Example
 	*         Id: 3,
 	*         Name: 'Ilia',
 	*		  SecondName: 'Razumtsev',
-	*		  Date: '16/09/1980'
+	*		  Date: '16/09/1980',
 	*		  Comment: 'Brother',
 	*		  Hometown: 'Pskov',
 	*		  HometownId: 4,
@@ -55,6 +54,7 @@ Example
 	*   ]
 	*
 	*/
+
 
 	function loadRows(e) {
 		return new Promise(function (resolve, reject) {
@@ -117,7 +117,7 @@ Example
 		allowEdit={true}
 	/>
 
-Some grid properties
+## Some grid properties
 
 	uid - grid uid
 	keyField - primary key
@@ -152,12 +152,12 @@ Some grid properties
 						}
 
 
-For more examples see DebugApp.jsx
+## For more examples see DebugApp.jsx
 
 	Your App.jsx should look like this
 
-	import DebugApp from '../node_modules/react-graph-grid/src/Tests/DebugApp'
-	import '../node_modules/react-graph-grid/src/css/default.css'
+	import { DebugApp } from 'react-graph-grid';
+	import 'react-graph-grid/src/css/default.css';
 
 	function App() {
 	  return (
@@ -169,6 +169,18 @@ For more examples see DebugApp.jsx
 
 	export default App
 
+
+0.1.12 version
+		
+		readme and css changes
+
+0.1.4 - 0.1.11 version
+
+		package.json changes
+		
+0.1.3 version
+		
+		index.js containing exports added
 
 0.1.2 version
 		
@@ -193,4 +205,3 @@ For more examples see DebugApp.jsx
 0.0.5 version
 
 		"Adjust column visibility" option added to GridFE.jsx module
-

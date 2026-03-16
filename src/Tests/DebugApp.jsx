@@ -1,5 +1,5 @@
 ﻿import { useState } from 'react';
-import TestData from '../Tests/TestData';
+import { TestData } from '../Tests/TestData';
 import { Overlay } from '../Overlay';
 import { Modal } from '../Modal';
 import { Dropdown } from '../Dropdown';
@@ -10,10 +10,8 @@ import { GridFL } from '../GridFL';
 import { GridFE } from '../GridFE';
 import { GridCD } from '../GridCD';
 import { FieldEdit } from '../FieldEdit';
-//import { GridINU } from '../GridINU';
-//import { GraphComponent } from '../GraphComponent';
 
-function DebugApp() {
+export function DebugApp() {
     const [state, setState] = useState({ menuItem: - 2 });
 
     window._logEnabled = true;
